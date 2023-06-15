@@ -1,6 +1,6 @@
-package hr.kpastor.webshop.controllers;
+package hr.kpastor.webshop.controller;
 
-import hr.kpastor.webshop.models.Item;
+import hr.kpastor.webshop.model.Item;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,7 +11,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/")
-public class homeController {
+public class HomeController {
 
     @GetMapping
     public String home(Model model) {
