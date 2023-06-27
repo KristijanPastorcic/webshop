@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("backoffice")
 public class BackOfficeHomeController {
-    @GetMapping
+    @GetMapping()
     public String home(Model model) {
-        return "/backoffice/views/home";
+        return "redirect:/backoffice/category";
     }
 }

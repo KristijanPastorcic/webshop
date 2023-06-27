@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/backofficeMainLayout}">
+<head>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div class="row">
+        <div class="col-md-12 col-sm-12 ">
+            <div class="x_content">
+                <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left"
+                      th:action="@{'/backoffice/category/edit/' + ${category.id}}" method="post">
+                    <div class="item form-group">
+                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="category-name">Category
+                            Name<span
+                                    class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 ">
+                            <input type="text" id="category-name" name="name" required="required" class="form-control "
+                                   th:value="${category.name}">
+                        </div>
+                    </div>
+                    <div class="item form-group">
+                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="desc">Description</label>
+                        <div class="col-md-6 col-sm-6 ">
+                            <textarea type="text" id="desc" name="desc" class="form-control"
+                                      th:text="${category.description}"></textarea>
+                        </div>
+                    </div>
+
+
+                    <div class="ln_solid"></div>
+                    <div class="item form-group">
+                        <div class="col-md-4 col-sm-4 offset-md-3">
+                            <button type="submit" class="btn btn-success">Submit</button>
+                        </div>
+                        <div class="col-md-2 col-sm-2 offset-md-3">
+                            <a href="/backoffice/category" class="btn btn-primary">Back</a>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</th:block>
+</body>
+</html>

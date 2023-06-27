@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/backofficeMainLayout}">
+<head>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div class="row">
+        <div class="col-md-12 col-sm-12 ">
+            <div class="x_content">
+                <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left"
+                      action="/backoffice/category/create" method="post">
+                    <div class="item form-group">
+                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="category-name">Category
+                            Name<span
+                                    class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 ">
+                            <input type="text" id="category-name" name="name" required="required" class="form-control ">
+                        </div>
+                    </div>
+                    <div class="item form-group">
+                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="desc">Description</label>
+                        <div class="col-md-6 col-sm-6 ">
+                            <textarea type="text" id="desc" name="desc" class="form-control"></textarea>
+                        </div>
+                    </div>
+
+
+                    <div class="ln_solid"></div>
+                    <div class="item form-group">
+                        <div class="col-md-6 col-sm-6 offset-md-3">
+                            <button type="submit" class="btn btn-success">Submit</button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- table -->
+    <div class="table-responsive">
+        <table class="table table-striped jambo_table bulk_action">
+            <thead>
+            <tr class="headings">
+                <th class="column-title">ID</th>
+                <th class="column-title">Name</th>
+                <th class="column-title">Description</th>
+                <th class="column-title no-link last"><span class="nobr">Action</span>
+                </th>
+                <th class="bulk-actions" colspan="7">
+                    <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span
+                            class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="categorie: ${categories}" class="even pointer">
+                <td class=" " th:text="${categorie.id}"></td>
+                <td>
+                    <a th:href="@{'/backoffice/category/edit/' + ${categorie.id}}" th:text="${categorie.name}"></a>
+                </td>
+                <td class=" " th:text="${categorie.description}"></td>
+                <td class=" last">
+                    <a href="#" th:attr="data-href=@{'/backoffice/category/delete/' + ${categorie.id}}"
+                       data-toggle="modal"
+                       data-target="#confirm-delete">
+                        <i class="fa fa-trash" aria-hidden="true"></i>
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- modal delete -->
+    <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    Delete this category?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-danger btn-ok">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+</body>
+</html>
