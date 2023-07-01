@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 @Controller
@@ -31,7 +31,8 @@ public class CategoryController {
 
     @PostMapping("/create")
     public String create(ValidatedCategoryDTO dto) {
-        categoryRepository.insert(new Category().copyValidatedDTO(dto));
+        Category category = new Category().copyValidatedDTO(dto, new ArrayList<>());
+        categoryRepository.insert(category);
         return "redirect:/backoffice/category";
     }
 
@@ -55,7 +56,7 @@ public class CategoryController {
     @PostMapping("/edit/{id}")
     public String edit(@PathVariable String id, ValidatedCategoryDTO dto) {
         Optional<Category> categoryOptional = categoryRepository.findById(id);
-        categoryOptional.ifPresent(category -> categoryRepository.save(category.copyValidatedDTO(dto)));
+        categoryOptional.ifPresent(category -> categoryRepository.save(category.copyValidatedDTO(dto, new ArrayList<>())));
         return "redirect:/backoffice/category";
     }
 }

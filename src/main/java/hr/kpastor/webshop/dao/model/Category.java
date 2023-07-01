@@ -5,6 +5,7 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -16,9 +17,11 @@ public class Category {
     private String description;
     private List<Product> products;
 
-    public Category copyValidatedDTO(ValidatedCategoryDTO dto) {
+
+    public Category copyValidatedDTO(ValidatedCategoryDTO dto, ArrayList<Product> products) {
         name = dto.getName().trim();
         description = dto.getDesc().trim();
+        this.products = products;
         return this;
     }
 }
