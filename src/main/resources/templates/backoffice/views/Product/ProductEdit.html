@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/backofficeMainLayout}">
+<head>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div class="row">
+        <div class="col-md-12 col-sm-12 ">
+            <div class="x_content">
+                <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left"
+                      th:action="@{'/backoffice/product/edit/' + ${product.name} + '?current_category_id=' + ${category_id}}"
+                      method="post"
+                      enctype="multipart/form-data">
+                    <div class="item form-group">
+                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="product-name">
+                            Product Name<span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 ">
+                            <input type="text" id="product-name" name="name" required="required" class="form-control "
+                                   th:value="${product.name}">
+                        </div>
+                    </div>
+                    <div class="item form-group">
+                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="desc">Description</label>
+                        <div class="col-md-6 col-sm-6 ">
+                            <textarea type="text" id="desc" name="desc" class="form-control"
+                                      th:text="${product.description}">
+
+                            </textarea>
+                        </div>
+                    </div>
+                    <div class="item form-group">
+                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="product-price">
+                            Product Price<span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 ">
+                            <input type="text" id="product-price" name="price" required="required" class="form-control "
+                                   th:value="${product.price}">
+                        </div>
+                    </div>
+                    <div class="item form-group">
+                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="product-name">
+                            Product Category<span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 ">
+                            <select type="" id="category-id" name="category_id" required="required"
+                                    class="form-control ">
+                                <option th:each="categorie: ${categories}"
+                                        th:value="${categorie.id}" th:text="${categorie.name}">
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="item form-group">
+                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="product-name">
+                            Product Image<span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 ">
+                            <input type="file" name="image" accept="image/*" class="form-control-file">
+                        </div>
+                    </div>
+                    <div th:width="200" th:height="200" class="item form-group">
+                        <img th:src="${product.imagePath}" alt="">
+                    </div>
+                    <div class="ln_solid"></div>
+                    <div class="item form-group">
+                        <div class="col-md-6 col-sm-6 offset-md-3">
+                            <button type="submit" class="btn btn-success">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</th:block>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/backofficeMainLayout}">
+<head>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div class="row">
+        <div class="col-md-12 col-sm-12 ">
+            <div class="x_content">
+                <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left"
+                      action="/backoffice/product" method="post" enctype="multipart/form-data">
+                    <div class="item form-group">
+                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="product-name">
+                            Product Name<span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 ">
+                            <input type="text" id="product-name" name="name" required="required" class="form-control ">
+                        </div>
+                    </div>
+                    <div class="item form-group">
+                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="desc">Description</label>
+                        <div class="col-md-6 col-sm-6 ">
+                            <textarea type="text" id="desc" name="desc" class="form-control"></textarea>
+                        </div>
+                    </div>
+                    <div class="item form-group">
+                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="product-price">
+                            Product Price<span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 ">
+                            <input type="text" id="product-price" name="price" required="required"
+                                   class="form-control ">
+                        </div>
+                    </div>
+                    <div class="item form-group">
+                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="product-name">
+                            Product Category<span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 ">
+                            <select type="" id="category-id" name="category_id" required="required"
+                                    class="form-control ">
+                                <option th:each="categorie: ${categories}"
+                                        th:value="${categorie.id}" th:text="${categorie.name}">
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="item form-group">
+                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="product-name">
+                            Product Image<span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 ">
+                            <input type="file" name="image" accept="image/*" class="form-control-file">
+                        </div>
+                    </div>
+                    <div class="ln_solid"></div>
+                    <div class="item form-group">
+                        <div class="col-md-6 col-sm-6 offset-md-3">
+                            <button type="submit" class="btn btn-success">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- table -->
+    <div class="table-responsive">
+        <table class="table table-striped jambo_table bulk_action">
+            <thead>
+            <tr class="headings">
+                <th class="column-title">Category</th>
+                <th class="column-title">Name</th>
+                <th class="column-title">Image</th>
+                <th class="column-title">Description</th>
+                <th class="column-title">Price</th>
+                <th class="column-title no-link last"><span class="nobr">Action</span>
+                </th>
+                <th class="bulk-actions" colspan="7">
+                    <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span
+                            class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <th:block th:each="categorie: ${categories}" class="even pointer">
+                <tr th:each="product: ${categorie.products}">
+                    <td class=" " th:text="${categorie.name}"></td>
+                    <td>
+                        <a th:href="@{'/backoffice/product/edit/' + ${product.name} + '?category_id=' + ${categorie.id}}"
+                           th:text="${product.name}">
+                        </a>
+                    </td>
+                    <td>
+                        <a th:href="${product.imagePath}" th:text="${product.imagePath}"></a>
+                    </td>
+                    <td class=" " th:text="${product.description}"></td>
+                    <td class=" " th:text="${product.price}"></td>
+                    <td class=" last">
+                        <a href="#"
+                           th:attr="data-href=@{'/backoffice/product/delete/' + ${product.name} + '?category_id=' + ${categorie.id}}"
+                           data-toggle="modal"
+                           data-target="#confirm-delete">
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                        </a>
+                    </td>
+                </tr>
+            </th:block>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- modal delete -->
+    <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    Delete this product?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-danger btn-ok">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+</body>
+</html>
