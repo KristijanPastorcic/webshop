@@ -123,6 +123,6 @@ public class ProductController {
         Path imagePath = Paths.get(UPLOAD_DIRECTORY, categoryName,
                 UUID.randomUUID() + "_" + file.getOriginalFilename());
         Files.write(imagePath, file.getBytes());
-        return imagePath.toString().substring(UPLOAD_DIRECTORY.length(), imagePath.toString().length()); // properly get relative string
+        return imagePath.toString().substring(UPLOAD_DIRECTORY.length(), imagePath.toString().length()).replace("\\", "/"); // properly get relative string
     }
 }

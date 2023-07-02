@@ -36,10 +36,10 @@
     </div>
     <div class="humberger__menu__cart">
         <ul>
-            <li><a href="#"><i class="fa fa-heart"></i></a></li>
-            <li><a href="#"><i class="fa fa-shopping-bag"></i></a></li>
+            <li><a href="#"><i class="fa fa-shopping-bag"></i><span
+                    th:text="${session.basket.itemsInBasket}"></span></a>
         </ul>
-        <div class="header__cart__price">item: <span>$00.00</span></div>
+        <div class="header__cart__price">item: <span th:text="${session.basket.total} + '€'"></span></div>
     </div>
     <div class="humberger__menu__widget">
         <div class="header__top__right__language">
@@ -121,10 +121,13 @@
             <div class="col-lg-3">
                 <div class="header__cart">
                     <ul>
-                        <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                        <li><a href="#"><i class="fa fa-shopping-bag"></i></a></li>
+                        <li><a href="#"><i class="fa fa-shopping-bag"></i><span
+                                th:text="${session.basket.itemsInBasket}"></span></a>
+                        </li>
                     </ul>
-                    <div class="header__cart__price">checkout: <span>$00.00</span></div>
+                    <div class="header__cart__price">checkout: <span
+                            th:text="${#numbers.formatDecimal(session.basket.total, 2,2, 'COMMA')} + '€'"></span>
+                    </div>
                 </div>
             </div>
         </div>
