@@ -8,13 +8,14 @@ import java.util.Objects;
 public class Item {
     private Product product;
     private Integer quantity;
-
+    private float price;
     private float total;
 
     public Item(Product product, int quantity) {
         this.product = product;
         this.quantity = quantity;
-        total = product.getPrice() * quantity;
+        price = product.getPrice();
+        total = price * quantity;
     }
 
     @Override

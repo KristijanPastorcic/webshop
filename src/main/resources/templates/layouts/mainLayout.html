@@ -57,7 +57,7 @@
     </div>
     <nav class="humberger__menu__nav mobile-menu">
         <ul>
-            <li class="active"><a href="./index.html">Home</a></li>
+            <li class="active"><a href="/index">Home</a></li>
         </ul>
     </nav>
     <div id="mobile-menu-wrap"></div>
@@ -88,7 +88,7 @@
                 <div class="col-lg-6 col-md-6">
                     <div class="header__top__right">
                         <div class="header__top__right__language">
-                            <img src="img/language.png" alt="">
+                            <img src="/img/language.png" alt="">
                             <div>English</div>
                             <span class="arrow_carrot-down"></span>
                             <ul>
@@ -108,25 +108,25 @@
         <div class="row">
             <div class="col-lg-3">
                 <div class="header__logo">
-                    <a href="./index.html"><img src="img/logo.png" alt=""></a>
+                    <a href="/index"><img src="/img/logo.png" alt=""></a>
                 </div>
             </div>
             <div class="col-lg-6">
                 <nav class="header__menu">
                     <ul>
-                        <li class="active"><a href="./index.html">Home</a></li>
+                        <li class="active"><a href="/index">Home</a></li>
                     </ul>
                 </nav>
             </div>
             <div class="col-lg-3">
                 <div class="header__cart">
                     <ul>
-                        <li><a href="#"><i class="fa fa-shopping-bag"></i><span
+                        <li><a href="/index/basket"><i class="fa fa-shopping-bag"></i><span
                                 th:text="${session.basket.itemsInBasket}"></span></a>
                         </li>
                     </ul>
                     <div class="header__cart__price">checkout: <span
-                            th:text="${#numbers.formatDecimal(session.basket.total, 2,2, 'COMMA')} + '€'"></span>
+                            th:text="${#numbers.formatDecimal(session.basket.total, 1,2, 'COMMA')} + '€'"></span>
                     </div>
                 </div>
             </div>
@@ -166,5 +166,6 @@
 <script src="/js/mixitup.min.js"></script>
 <script src="/js/owl.carousel.min.js"></script>
 <script src="/js/main.js"></script>
+<script src="/js/basket.js"></script>
 </body>
 </html>

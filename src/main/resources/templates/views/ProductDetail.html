@@ -22,7 +22,8 @@
                 <div class="col-lg-6 col-md-6">
                     <div class="product__details__text">
                         <h3 th:text="${product.name}">name</h3>
-                        <div class="product__details__price" th:text="${product.price} + '€'"></div>
+                        <div class="product__details__price"
+                             th:text="${#numbers.formatDecimal(product.price, 1,2, 'COMMA')} + '€'"></div>
                         <p th:text="${product.description}">description</p>
                         <form th:action="@{'/index/addToBasket/' + ${category_id} + '/' + ${product.name}}"
                               method="post">
