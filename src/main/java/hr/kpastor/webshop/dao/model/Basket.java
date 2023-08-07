@@ -41,43 +41,6 @@ public class Basket {
         itemList.remove(index);
     }
 
-    public float incItemQuantity(int index) {
-        Item item = itemList.get(index);
-        if (item.getQuantity() < 1) {
-            return item.getTotal();
-        }
-        item.setQuantity(item.getQuantity() + 1);
-        item.setTotal(item.getTotal() + item.getPrice());
-        setTotal(getTotal() + item.getPrice());
-        return item.getTotal();
-    }
-
-    public float decItemQuantity(int index) {
-        Item item = itemList.get(index);
-        if (item.getQuantity() < 1) {
-            return item.getTotal();
-        }
-        item.setQuantity(item.getQuantity() - 1);
-        item.setTotal(item.getTotal() - item.getPrice());
-        setTotal(getTotal() - item.getPrice());
-        return item.getTotal();
-    }
-
-    public boolean contains(Product product) {
-        return itemList.stream()
-                .anyMatch(item -> item.getProduct().equals(product));
-    }
-
-    public void addQuantity(Product product, int quantity) {
-        itemList.forEach(item -> {
-            if (item.getProduct().equals(product)) {
-                item.setQuantity(item.getQuantity() + quantity);
-                item.setTotal(getTotal() + item.getPrice() * quantity);
-                this.setItemsInBasket(this.getItemsInBasket() + item.getQuantity());
-                this.setTotal(this.getTotal() + item.getTotal());
-            }
-        });
-    }
 
     public Map<String, Object> getBasketData(Item item) {
         Map<String, Object> responseData = new HashMap<>();

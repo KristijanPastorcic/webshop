@@ -48,9 +48,7 @@ public class HomeController {
     @GetMapping("/{category_id}/{name}")
     public String viewProduct(@PathVariable String category_id, @PathVariable String name, Model model) {
         Optional<Product> productOptional = categoryRepository.findProductByNameAndCategoryId(name, category_id);
-        productOptional.ifPresent(product -> {
-            model.addAttribute("product", product);
-        });
+        productOptional.ifPresent(product -> model.addAttribute("product", product));
         return "views/ProductDetail";
     }
 
