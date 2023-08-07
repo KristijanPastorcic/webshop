@@ -11,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -64,7 +63,10 @@ public class HomeController {
      * Adds product to basket and redirects back to PLP
      */
     @PostMapping("/addToBasket/{category_id}/{name}")
-    public String AddItemInBasket(@PathVariable String category_id, @PathVariable String name, int quantity, HttpSession session) {
+    public String AddItemInBasket(@PathVariable String category_id,
+                                  @PathVariable String name,
+                                  int quantity,
+                                  HttpSession session) {
         Optional<Product> productOptional = categoryRepository.findProductByNameAndCategoryId(name, category_id);
         productOptional.ifPresent(product -> {
             Basket basket = (Basket) session.getAttribute("basket");
@@ -78,14 +80,19 @@ public class HomeController {
      */
     @GetMapping("/basket")
     public String viewBasket(HttpSession session, Model model) {
-        model.addAttribute("basket", session.getAttribute("basket"));
+        Basket basket = (Basket) session.getAttribute("basket");
+        if (basket == null) {
+            basket = new Basket();
+            basket.setItemsInBasket(0);
+        }
+        model.addAttribute("basket", basket);
         return "views/Basket";
     }
 
     /**
      * remove one item from basket
      */
-    @GetMapping("/basket/{index}")
+    @GetMapping("/basket/rm/{index}")
     @ResponseBody
     public ResponseEntity<Map<String, Object>> removeProductFromBasket(@PathVariable int index, HttpSession session) {
         Basket basket = (Basket) session.getAttribute("basket");
@@ -93,37 +100,45 @@ public class HomeController {
 
         Map<String, Object> responseData = new HashMap<>();
 
-        responseData.put("count", basket.getItemsInBasket());
         responseData.put("total", basket.getTotal());
+        responseData.put("count", basket.getItemsInBasket());
         return ResponseEntity.ok(responseData);
     }
 
     /**
-     * update item quantity
+     * inc basket product
      */
-
-    @GetMapping("/basket/quantity/{index}")
+    @GetMapping("/basket/inc/{index}")
     @ResponseBody
-    public ResponseEntity<Map<String, Object>> updateItemQuantityInBasket
-    (@PathVariable int index, @RequestParam String action, HttpSession session) {
+    public ResponseEntity<Map<String, Object>> incProductInBasket(@PathVariable int index, HttpSession session) {
         Basket basket = (Basket) session.getAttribute("basket");
-        float itemTotal = basket.updateItemQuantity(action, index);
+        Item item = basket.getItemList().get(index);
 
-        Map<String, Object> responseData = new HashMap<>();
-        responseData.put("total", basket.getTotal());
-        responseData.put("itemTotal", itemTotal);
-        return ResponseEntity.ok(responseData);
+        item.setQuantity(item.getQuantity() + 1);
+        item.setTotal(item.getTotal() + item.getPrice());
+        basket.setItemsInBasket(basket.getItemsInBasket() + 1);
+        basket.setTotal(basket.getTotal() + item.getPrice());
+
+
+        return ResponseEntity.ok(basket.getBasketData(item));
     }
 
-    public enum Action {
-        INCREMENT("Increment"), DECREMENT("Decrement");
-
-        private final String action;
-
-        Action(String action) {
-            this.action = action;
+    @GetMapping("/basket/dec/{index}")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> decProductInBasket(@PathVariable int index, HttpSession session) {
+        Basket basket = (Basket) session.getAttribute("basket");
+        Item item = basket.getItemList().get(index);
+        if (item.getQuantity() < 1) {
+            return ResponseEntity.ok(basket.getBasketData(item));
         }
 
+        item.setQuantity(item.getQuantity() - 1);
+        item.setTotal(item.getTotal() - item.getPrice());
+        basket.setItemsInBasket(basket.getItemsInBasket() - 1);
+        basket.setTotal(basket.getTotal() - item.getPrice());
+
+
+        return ResponseEntity.ok(basket.getBasketData(item));
     }
 
 }

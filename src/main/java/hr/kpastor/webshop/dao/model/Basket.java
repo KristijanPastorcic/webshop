@@ -3,7 +3,9 @@ package hr.kpastor.webshop.dao.model;
 import lombok.Data;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Data
 public class Basket {
@@ -21,11 +23,10 @@ public class Basket {
             this.itemsInBasket += item.getQuantity();
             this.total += item.getTotal();
         } else {
-            itemsInBasket += item.getQuantity();
-            total += item.getTotal();
             itemList.add(item);
+            total += item.getTotal();
+            itemsInBasket += item.getQuantity();
         }
-
     }
 
     /**
@@ -40,19 +41,50 @@ public class Basket {
         itemList.remove(index);
     }
 
-    public float updateItemQuantity(String action, int index) {
+    public float incItemQuantity(int index) {
         Item item = itemList.get(index);
-        if (item.getQuantity() < 1)
+        if (item.getQuantity() < 1) {
             return item.getTotal();
-        if (action.equals("-")) {
-            item.setQuantity(item.getQuantity() - 1);
-            item.setTotal(item.getTotal() - item.getPrice());
-            setTotal(getTotal() - item.getPrice());
-        } else {
-            item.setQuantity(item.getQuantity() + 1);
-            item.setTotal(item.getTotal() + item.getPrice());
-            setTotal(getTotal() + item.getPrice());
         }
+        item.setQuantity(item.getQuantity() + 1);
+        item.setTotal(item.getTotal() + item.getPrice());
+        setTotal(getTotal() + item.getPrice());
         return item.getTotal();
+    }
+
+    public float decItemQuantity(int index) {
+        Item item = itemList.get(index);
+        if (item.getQuantity() < 1) {
+            return item.getTotal();
+        }
+        item.setQuantity(item.getQuantity() - 1);
+        item.setTotal(item.getTotal() - item.getPrice());
+        setTotal(getTotal() - item.getPrice());
+        return item.getTotal();
+    }
+
+    public boolean contains(Product product) {
+        return itemList.stream()
+                .anyMatch(item -> item.getProduct().equals(product));
+    }
+
+    public void addQuantity(Product product, int quantity) {
+        itemList.forEach(item -> {
+            if (item.getProduct().equals(product)) {
+                item.setQuantity(item.getQuantity() + quantity);
+                item.setTotal(getTotal() + item.getPrice() * quantity);
+                this.setItemsInBasket(this.getItemsInBasket() + item.getQuantity());
+                this.setTotal(this.getTotal() + item.getTotal());
+            }
+        });
+    }
+
+    public Map<String, Object> getBasketData(Item item) {
+        Map<String, Object> responseData = new HashMap<>();
+        responseData.put("total", this.getTotal());
+        responseData.put("count", this.getItemsInBasket());
+        responseData.put("item", item.getTotal());
+        responseData.put("itemCount", item.getQuantity());
+        return responseData;
     }
 }
