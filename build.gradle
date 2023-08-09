@@ -20,17 +20,28 @@ repositories {
 
 
 dependencies {
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
     implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // validation
     implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    // security
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.security:spring-security-test'
+
+    // Mongo
     implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+
+    // lombok
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
+
+    // test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-
-    // used for setting the main layout
+    // Thymeleaf
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
 }
 tasks.named('test') {
